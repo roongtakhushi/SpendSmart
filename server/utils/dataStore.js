@@ -1,11 +1,14 @@
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
 const Transaction = require("../models/Transaction");
 const AppData = require("../models/AppData");
 const Goal = require("../models/Goal");
 const User = require("../models/User");
 
-const file = path.join(__dirname, "..", "data", "db.json");
+const file = process.env.VERCEL
+    ? path.join(os.tmpdir(), "spendsmart-db.json")
+    : path.join(__dirname, "..", "data", "db.json");
 const defaults = {
     users: [],
     transactions: [],
