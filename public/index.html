@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="SpendSmart — a clear, thoughtful way to manage your money.">
+<title>SpendSmart — Money, made mindful</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="brand-logo">S</div>
+      <div class="brand-text">
+        <span class="brand-name">SpendSmart</span>
+        <span class="brand-sub">Personal Finance</span>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-link active" href="#" data-section="dashboard">
+        <span class="nav-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </span>
+        Overview
+      </a>
+      <a class="nav-link" href="#" data-section="transactions">
+        <span class="nav-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </span>
+        Transactions
+      </a>
+      <a class="nav-link" href="#" data-section="budgets">
+        <span class="nav-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </span>
+        Budgets
+      </a>
+      <a class="nav-link" href="#" data-section="analytics">
+        <span class="nav-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </span>
+        Analytics
+      </a>
+      <a class="nav-link" href="#" data-section="goals">
+        <span class="nav-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </span>
+        Goals
+      </a>
+      <a class="nav-link" href="#" data-section="calendar">
+        <span class="nav-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </span>
+        Calendar
+      </a>
+      <a class="nav-link" href="#" data-section="alerts">
+        <span class="nav-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </span>
+        Alerts
+      </a>
+      <a class="nav-link" href="#" data-section="settings">
+        <span class="nav-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </span>
+        Settings
+      </a>
+    </nav>
+
+    <!-- Bottom motivational card -->
+    <div class="sidebar-card">
+      <div class="sidebar-card-plant">🌿</div>
+      <div class="sidebar-card-body">
+        <div class="sidebar-card-title">Keep It Up! 💚</div>
+        <p>Smart money habits are built one decision at a time.</p>
+        <button class="sidebar-card-heart" title="Save tip">♡</button>
+      </div>
+    </div>
+
+    <div class="sidebar-status">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="dbStatus">Connecting…</span>
+    </div>
+
+  </aside>
+
+  <!-- ═══════════════════ MAIN ═══════════════════ -->
+  <main class="main">
+
+    <!-- ── TOP HEADER ── -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <p class="topbar-greeting" id="greetingLine">Good morning 👋</p>
+        <h1 class="topbar-title" id="greeting">Financial Overview</h1>
+        <p class="topbar-sub">Track, manage and improve your financial health.</p>
+      </div>
+
+      <div class="topbar-right">
+        <!-- Date card -->
+        <div class="topbar-date-card">
+          <span class="topbar-date-ico">📅</span>
+          <div>
+            <div class="topbar-date-label">Today's Date</div>
+            <div class="topbar-date-val" id="todayLabel">—</div>
+          </div>
+        </div>
+
+        <!-- User card -->
+        <div class="topbar-user-card">
+          <div class="avatar" id="avatar">S</div>
+          <div class="topbar-user-info">
+            <div class="topbar-user-name" id="topbarUserName">My Account</div>
+            <div class="topbar-user-sub">Personal Finance</div>
+          </div>
+          <div class="topbar-user-chevron">
+            <button class="theme-toggle-btn" id="themeToggle" title="Toggle dark mode">☾</button>
+            <button class="auth-logout-btn" id="logoutBtn" title="Sign out" style="display:none;">↩</button>
+          </div>
+        </div>
+
+        <!-- Month picker -->
+        <input id="monthPicker" type="month" class="month-input" aria-label="Select month">
+      </div>
+    </header>
+
+    <!-- ── OVERVIEW VIEW ── -->
+    <div id="page-dashboard">
+    <!-- ── 4 STAT CARDS ── -->
+    <div class="stats-grid">
+
+      <article class="stat-card stat-net">
+        <div class="stat-icon-wrap stat-icon-net">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">Net Cash Flow</div>
+          <div class="stat-value" id="balance">₹0</div>
+          <div class="stat-sub">Income minus expenses</div>
+        </div>
+      </article>
+
+      <article class="stat-card stat-income">
+        <div class="stat-icon-wrap stat-icon-income">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">Total Income</div>
+          <div class="stat-value" id="income">₹0</div>
+          <div class="stat-sub stat-trend-up" id="incomeTrend">Money in this month ↑</div>
+        </div>
+      </article>
+
+      <article class="stat-card stat-expense">
+        <div class="stat-icon-wrap stat-icon-expense">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">Total Expenses</div>
+          <div class="stat-value" id="expenses">₹0</div>
+          <div class="stat-sub stat-trend-down">Money out this month ↓</div>
+        </div>
+      </article>
+
+      <article class="stat-card stat-save">
+        <div class="stat-icon-wrap stat-icon-save">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">Savings Rate</div>
+          <div class="stat-value" id="savingsRate">0%</div>
+          <div class="stat-sub" id="savingsLabel">Keep building</div>
+        </div>
+      </article>
+
+    </div><!-- /stats-grid -->
+
+    <!-- ── MIDDLE ROW: Donut | Quick Actions | Insight ── -->
+    <div class="mid-grid">
+
+      <!-- Spending donut -->
+      <article class="panel donut-panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-kicker">WHERE IT GOES</div>
+            <h3 class="panel-title">Spending Breakdown</h3>
+          </div>
+          <span class="panel-badge" id="spendingMonthBadge">CURRENT MONTH</span>
+        </div>
+
+        <div class="donut-body">
+          <div class="donut-chart-wrap">
+            <div class="donut" id="donut">
+              <div class="donut-center">
+                <strong id="donutTotal">₹0</strong>
+                <span>spent</span>
+              </div>
+            </div>
+          </div>
+          <div class="donut-legend-wrap">
+            <div id="categoryLegend" class="category-legend">
+              <span class="empty-label">Add expenses to see your breakdown.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="donut-banner">
+          <span class="donut-banner-star">⭐</span>
+          <span id="donutBannerText">Great job! Keep up the consistency.</span>
+        </div>
+      </article>
+
+      <!-- Quick Actions -->
+      <article class="panel qa-panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-kicker">TOOLS</div>
+            <h3 class="panel-title">Quick Actions</h3>
+          </div>
+          <span class="qa-plus">✦</span>
+        </div>
+
+        <div class="qa-list">
+          <button class="qa-btn qa-green" id="qaAddTransaction" type="button">
+            <span class="qa-btn-ico">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            Add Transaction
+          </button>
+          <button class="qa-btn qa-red" id="qaViewBudgets" type="button">
+            <span class="qa-btn-ico">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+            </span>
+            View Budgets
+          </button>
+          <button class="qa-btn qa-amber" id="qaAddGoal" type="button">
+            <span class="qa-btn-ico">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </span>
+            Add Savings Goal
+          </button>
+        </div>
+      </article>
+
+      <!-- Insight -->
+      <article class="panel insight-panel">
+        <div class="insight-star-btn">★</div>
+        <div class="panel-kicker" style="margin-bottom:8px;">MONEY INSIGHT</div>
+        <div class="insight-body">
+          <div class="insight-plant">🌱</div>
+          <div>
+            <h4 class="insight-title" id="insightTitleDash">Keep It Up!</h4>
+            <p class="insight-text" id="insightDash">Your financial data will appear here once you add transactions.</p>
+          </div>
+        </div>
+        <div class="insight-progress-wrap" id="insightProgressWrap">
+          <div class="insight-progress-labels">
+            <span>Savings rate</span>
+            <span id="insightProgressPct">0%</span>
+          </div>
+          <div class="insight-track">
+            <div class="insight-fill" id="insightProgressFill" style="width:0%"></div>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /mid-grid -->
+
+    <!-- ── TRANSACTION TABLE ── -->
+    <section class="table-section">
+      <div class="table-section-head">
+        <div>
+          <div class="panel-kicker">LATEST ACTIVITY</div>
+          <h3 class="panel-title">Recent Transactions</h3>
+        </div>
+        <div class="table-controls">
+          <label class="search-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input id="searchInput" type="search" placeholder="Search by name or category…">
+          </label>
+          <select id="typeFilter" class="filter-sel">
+            <option value="">All activity</option>
+            <option value="income">Income</option>
+            <option value="expense">Expenses</option>
+          </select>
+          <select id="categoryFilter" class="filter-sel"></select>
+          <button id="exportBtn" class="btn-outline">↓ Export CSV</button>
+          <button id="addBtn" class="btn-primary" type="button">＋ Add Transaction</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>DESCRIPTION</th>
+              <th>CATEGORY</th>
+              <th>DATE</th>
+              <th>TYPE</th>
+              <th class="col-right">AMOUNT</th>
+              <th class="col-right">ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody id="transactionRows">
+            <tr><td colspan="6" class="empty-cell">No transactions found.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-foot">
+        <span id="transactionCount">0 transactions</span>
+        <span>Showing selected month</span>
+      </div>
+    </section>
+    </div><!-- /page-dashboard -->
+
+
+<!-- ═══════════════════════════════════════════════
+     ALL OTHER SECTIONS (inside .main so topbar stays visible)
+     ═══════════════════════════════════════════════ -->
+
+<!-- TRANSACTIONS FULL PAGE -->
+<div id="page-transactions" class="page-section" style="display:none;">
+  <div class="page-wrap">
+    <div class="page-head">
+      <div>
+        <span class="panel-kicker">THE DETAILS</span>
+        <h2>Transactions</h2>
+      </div>
+      <button class="btn-primary" id="addBtn2" type="button">＋ Add transaction</button>
+    </div>
+    <div class="panel" style="padding:0;border-radius:16px;overflow:hidden;">
+      <div class="table-section-head" style="padding:16px 20px; border-bottom:1px solid var(--line);">
+        <div class="table-controls" style="width:100%;">
+          <label class="search-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input id="searchInput2" type="search" placeholder="Search by name or category…">
+          </label>
+          <select id="typeFilter2" class="filter-sel">
+            <option value="">All activity</option>
+            <option value="income">Income</option>
+            <option value="expense">Expenses</option>
+          </select>
+          <select id="categoryFilter2" class="filter-sel"></select>
+          <button id="exportBtn2" class="btn-outline" type="button">↓ Export CSV</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table"><thead><tr><th>DESCRIPTION</th><th>CATEGORY</th><th>DATE</th><th>TYPE</th><th class="col-right">AMOUNT</th><th class="col-right">ACTIONS</th></tr></thead>
+        <tbody id="transactionRows2"></tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BUDGETS PAGE -->
+<div id="page-budgets" class="page-section" style="display:none;">
+  <div class="page-wrap">
+    <div class="page-head">
+      <div><span class="panel-kicker">SPEND WITH INTENTION</span><h2>Monthly Budgets</h2></div>
+      <button class="btn-outline" id="editBudgetsBtn">✎ Edit limits</button>
+    </div>
+    <div class="budget-summary" id="budgetSummary"></div>
+    <div class="budget-grid" id="budgetList"></div>
+  </div>
+</div>
+
+<!-- ANALYTICS PAGE -->
+<div id="page-analytics" class="page-section" style="display:none;">
+  <div class="page-wrap">
+    <div class="page-head"><div><span class="panel-kicker">PATTERNS &amp; PROGRESS</span><h2>Your Money Story</h2></div></div>
+    <div class="analytics-grid">
+      <article class="panel chart-panel">
+        <div class="panel-head"><div><span class="panel-kicker">CASH FLOW</span><h3 class="panel-title">Income vs. Expenses</h3></div><span class="panel-badge">SELECTED MONTH</span></div>
+        <div class="comparison-chart"><div class="chart-bars">
+          <div class="bar-col"><div class="bar-track"><div class="bar income-bar" id="incomeBar"></div></div><b id="incomeBarValue">₹0</b><span>Income</span></div>
+          <div class="bar-col"><div class="bar-track"><div class="bar expense-bar" id="expenseBar"></div></div><b id="expenseBarValue">₹0</b><span>Expenses</span></div>
+        </div></div>
+      </article>
+      <article class="panel insight-panel-full">
+        <div class="insight-art">✳</div>
+        <span class="panel-kicker">A SMART OBSERVATION</span>
+        <h3 id="insightTitle">Your insights are taking shape.</h3>
+        <p id="insight">Add a few transactions and SpendSmart will highlight a useful pattern.</p>
+      </article>
+    </div>
+    <article class="panel" style="margin-top:16px;">
+      <div class="panel-head"><div><span class="panel-kicker">THE LAST SIX MONTHS</span><h3 class="panel-title">Cash Flow Trend</h3></div><span class="panel-badge">MONTHLY NET</span></div>
+      <div id="trendChart" class="trend-chart"></div>
+    </article>
+  </div>
+</div>
+
+<!-- GOALS PAGE -->
+<div id="page-goals" class="page-section" style="display:none;">
+  <div class="page-wrap">
+    <div class="page-head"><div><span class="panel-kicker">SAVE WITH PURPOSE</span><h2>Savings Goals</h2></div></div>
+    <div class="goal-composer panel">
+      <label class="field-label">Goal name<input id="goalName" class="form-control" maxlength="45" placeholder="e.g. New laptop"></label>
+      <label class="field-label">Target amount<input id="goalTarget" class="form-control" type="number" min="1" step="1" placeholder="50000"></label>
+      <label class="field-label">Already saved<input id="goalSaved" class="form-control" type="number" min="0" step="1" value="0"></label>
+      <button class="btn-primary" id="addGoalBtn" type="button">＋ Add goal</button>
+    </div>
+    <div id="goalsList" class="goals-grid"></div>
+  </div>
+</div>
+
+<!-- CALENDAR PAGE -->
+<div id="page-calendar" class="page-section" style="display:none;">
+  <div class="page-wrap">
+    <div class="page-head">
+      <div><span class="panel-kicker">DAILY MONEY HABITS</span><h2>Expense Calendar</h2></div>
+      <div class="calendar-controls">
+        <button class="btn-outline" id="calendarPrev">←</button>
+        <b id="calendarMonth"></b>
+        <button class="btn-outline" id="calendarNext">→</button>
+      </div>
+    </div>
+    <article class="panel">
+      <div class="calendar-weekdays"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+      <div id="expenseCalendar" class="expense-calendar"></div>
+      <p class="calendar-legend"><span></span> More spending</p>
+    </article>
+  </div>
+</div>
+
+<!-- ALERTS PAGE -->
+<div id="page-alerts" class="page-section" style="display:none;">
+  <div class="page-wrap">
+    <div class="page-head"><div><span class="panel-kicker">STAY AWARE</span><h2>Smart Budget Alerts</h2></div></div>
+    <div id="smartAlerts" class="alerts-list"></div>
+  </div>
+</div>
+
+<!-- SETTINGS PAGE -->
+<div id="page-settings" class="page-section" style="display:none;">
+  <div class="page-wrap">
+    <div class="page-head"><div><span class="panel-kicker">MAKE IT YOURS</span><h2>Preferences</h2></div></div>
+    <form id="settingsForm" class="panel settings-panel">
+      <div><h3>Personal Settings</h3><p class="section-desc">Choose how SpendSmart greets you and displays amounts.</p></div>
+      <label class="field-label">Display name<input id="displayName" class="form-control" maxlength="40" placeholder="Your name"></label>
+      <label class="field-label">Display currency
+        <select id="currency" class="form-select">
+          <option value="INR">INR — Indian Rupee (₹)</option>
+          <option value="USD">USD — US Dollar ($)</option>
+          <option value="EUR">EUR — Euro (€)</option>
+          <option value="GBP">GBP — Pound (£)</option>
+        </select>
+      </label>
+      <button class="btn-primary" type="submit">Save preferences</button>
+    </form>
+    <button type="button" class="btn-outline" id="showChangePwBtn" style="margin-top:16px;">🔑 Change password</button>
+    <div class="panel" id="changePasswordPanel" style="margin-top:16px;display:none;">
+      <h3>Change Password</h3>
+      <form id="changePasswordForm" style="display:grid;gap:14px;max-width:420px;margin-top:14px;">
+        <div id="changePwError" class="auth-error-box" style="display:none;"></div>
+        <div id="changePwSuccess" style="display:none;color:#6b923a;font-size:.9rem;font-weight:600;padding:8px 12px;background:rgba(107,146,58,.1);border-radius:8px;"></div>
+        <label class="field-label">Current password<div class="password-wrap"><input id="currentPassword" class="form-control" type="password" placeholder="Enter current password" required autocomplete="current-password"><button type="button" class="eye-toggle-btn" data-toggle-pass="currentPassword">👁</button></div></label>
+        <label class="field-label">New password<div class="password-wrap"><input id="newPassword" class="form-control" type="password" placeholder="At least 6 characters" minlength="6" required autocomplete="new-password"><button type="button" class="eye-toggle-btn" data-toggle-pass="newPassword">👁</button></div></label>
+        <label class="field-label">Confirm new password<div class="password-wrap"><input id="confirmNewPassword" class="form-control" type="password" placeholder="Re-enter new password" minlength="6" required autocomplete="new-password"><button type="button" class="eye-toggle-btn" data-toggle-pass="confirmNewPassword">👁</button></div></label>
+        <div style="display:flex;gap:10px;">
+          <button type="submit" class="btn-primary" id="changePwSubmitBtn">Update password</button>
+          <button type="button" class="btn-outline" id="cancelChangePwBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+  </main><!-- /main -->
+</div><!-- /app-shell -->
+
+
+<!-- ═══════════════════ MODALS ═══════════════════ -->
+
+<!-- ADD / EDIT TRANSACTION -->
+<dialog id="transactionDialog" class="modal">
+  <form id="transactionForm" method="dialog" class="modal-card">
+    <div class="modal-head">
+      <div><span class="panel-kicker">MONEY MOVEMENT</span><h2 id="dialogTitle">Add transaction</h2></div>
+      <button type="button" class="modal-close" id="closeDialog">×</button>
+    </div>
+    <input type="hidden" id="transactionId">
+    <label class="field-label">What was it for?
+      <input id="titleInput" class="form-control" type="text" required maxlength="70" placeholder="e.g. Monthly stipend">
+    </label>
+    <div class="form-grid">
+      <label class="field-label">Amount<input id="amountInput" class="form-control" type="number" min="0.01" step="0.01" required placeholder="0.00"></label>
+      <label class="field-label">Type<select id="transactionType" class="form-select"><option value="expense">Expense</option><option value="income">Income</option></select></label>
+    </div>
+    <div class="form-grid">
+      <label class="field-label">Category<select id="transactionCategory" class="form-select" required></select></label>
+      <label class="field-label">Date<input id="dateInput" class="form-control" type="date" required></label>
+    </div>
+    <label class="field-label">Note <span class="optional">· optional</span>
+      <input id="noteInput" class="form-control" maxlength="180" placeholder="Add a little context">
+    </label>
+    <label class="check-row"><input id="recurringInput" type="checkbox"><span>Mark as a recurring transaction</span></label>
+    <div class="modal-actions">
+      <button type="button" class="btn-outline" id="cancelDialog">Cancel</button>
+      <button type="submit" class="btn-primary">Save transaction</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- BUDGET EDITOR -->
+<dialog id="budgetDialog" class="modal">
+  <form id="budgetForm" method="dialog" class="modal-card">
+    <div class="modal-head">
+      <div><span class="panel-kicker">PLAN AHEAD</span><h2>Edit monthly limits</h2></div>
+      <button type="button" class="modal-close" id="closeBudgetDialog">×</button>
+    </div>
+    <p class="section-desc">Set a monthly spending limit for each category. Enter 0 to disable.</p>
+    <div id="budgetInputs" class="budget-inputs"></div>
+    <div class="modal-actions">
+      <button type="button" class="btn-outline" id="cancelBudgetDialog">Cancel</button>
+      <button type="submit" class="btn-primary">Save budgets</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- AUTH -->
+<dialog id="authDialog" class="modal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div><span class="panel-kicker">WELCOME TO SPENDSMART</span><h2 id="authModalTitle">Sign in to your account</h2></div>
+    </div>
+    <div class="auth-tabs">
+      <button type="button" class="auth-tab active" id="tabLoginBtn">Sign In</button>
+      <button type="button" class="auth-tab" id="tabSignupBtn">Create Account</button>
+    </div>
+    <form id="loginForm" class="auth-form-body">
+      <div id="loginError" class="auth-error-box" style="display:none;"></div>
+      <label class="field-label">Email address<input id="loginEmail" class="form-control" type="email" placeholder="name@gmail.com" required autocomplete="email"></label>
+      <label class="field-label">Password<div class="password-wrap"><input id="loginPassword" class="form-control" type="password" placeholder="Enter your password" required autocomplete="current-password"><button type="button" class="eye-toggle-btn" data-toggle-pass="loginPassword">👁</button></div></label>
+      <button type="submit" class="btn-primary" id="loginSubmitBtn" style="width:100%;margin-top:6px;">Sign in</button>
+      <p class="auth-switch-text" style="text-align:center;">Don't have an account? <a href="#" id="switchToSignup">Create one now</a></p>
+    </form>
+    <form id="signupForm" class="auth-form-body" style="display:none;">
+      <div id="signupError" class="auth-error-box" style="display:none;"></div>
+      <label class="field-label">Full name<input id="signupName" class="form-control" type="text" placeholder="e.g. Rahul Sharma" required autocomplete="name"></label>
+      <label class="field-label">Email address<input id="signupEmail" class="form-control" type="email" placeholder="name@gmail.com" required autocomplete="email"></label>
+      <label class="field-label">Password<div class="password-wrap"><input id="signupPassword" class="form-control" type="password" placeholder="Enter your password" minlength="6" required autocomplete="new-password"><button type="button" class="eye-toggle-btn" data-toggle-pass="signupPassword">👁</button></div></label>
+      <label class="field-label">Confirm password<div class="password-wrap"><input id="signupConfirmPassword" class="form-control" type="password" placeholder="Re-enter your password" minlength="6" required autocomplete="new-password"><button type="button" class="eye-toggle-btn" data-toggle-pass="signupConfirmPassword">👁</button></div></label>
+      <button type="submit" class="btn-primary" id="signupSubmitBtn" style="width:100%;margin-top:6px;">Create account</button>
+      <p class="auth-switch-text" style="text-align:center;">Already have an account? <a href="#" id="switchToLogin">Sign in here</a></p>
+    </form>
+  </div>
+</dialog>
+
+<!-- TOAST -->
+<div id="toast" class="toast" role="status"></div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>

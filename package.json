@@ -1,0 +1,24 @@
+{
+  "name": "spendsmart",
+  "version": "2.0.0",
+  "private": true,
+  "description": "SpendSmart student personal finance manager - HTML, CSS, JavaScript, Node.js, Express and MongoDB",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "test:db": "node server/testMongo.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.9.5",
+    "uuid": "^11.0.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
