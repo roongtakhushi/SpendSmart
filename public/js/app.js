@@ -27,8 +27,13 @@ let transactions = [];
 let budgets      = {};
 let settings     = { name: "Student", currency: "INR" };
 let goals        = [];
-let selectedMonth   = new Date().toISOString().slice(0, 7);
-let calendarMonth   = new Date().toISOString().slice(0, 7);
+const localMonthKey = (d = new Date()) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+const localDateKey = (d = new Date()) =>
+    `${localMonthKey(d)}-${String(d.getDate()).padStart(2, "0")}`;
+
+let selectedMonth   = localMonthKey();
+let calendarMonth   = localMonthKey();
 let toastTimer;
 
 const $ = id => document.getElementById(id);
@@ -286,7 +291,7 @@ function detectPageSection() {
     // Render the relevant section
     const rows = monthRows();
     if (hash === "transactions") renderTransactionsTable(rows);
-    if (hash === "analytics")    renderAnalytics(rows, totals(rows));
+    if (hash === "analytics")    { renderAnalytics(rows, totals(rows)); renderTrend(); }
     if (hash === "budgets")      renderBudgets(rows);
     if (hash === "goals")        renderGoals();
     if (hash === "calendar")     renderCalendar();
@@ -453,10 +458,13 @@ function renderDonut(rows, total) {
     // Banner
     const banner = $("donutBannerText");
     if (banner) {
-        const rate = total > 0 ? Math.round(total / (total + 1) * 100) : 0; // placeholder message
-        banner.textContent = total > 0
-            ? "Great job! Keep tracking your spending."
-            : "Add expenses to see your spending breakdown.";
+        if (total > 0 && entries.length) {
+            const [topCat, topVal] = entries[0];
+            const topPct = Math.round(topVal / total * 100);
+            banner.textContent = `Top category: ${topCat} (${topPct}% of spending).`;
+        } else {
+            banner.textContent = "Add expenses to see your spending breakdown.";
+        }
     }
 }
 
@@ -685,19 +693,22 @@ function renderTrend() {
     const months = [];
     for (let i = 5; i >= 0; i--) {
         const d   = new Date(now.getFullYear(), now.getMonth() - i, 1);
-        const key = d.toISOString().slice(0, 7);
+        const key = localMonthKey(d);
         const sum = totals(transactions.filter(t => String(t.date).slice(0, 7) === key));
         months.push({ label: d.toLocaleDateString("en-IN", { month: "short" }), net: sum.income - sum.expense });
     }
     const max = Math.max(1, ...months.map(m => Math.abs(m.net)));
-    host.innerHTML = months.map(m => `
+    host.innerHTML = months.map(m => {
+        const pct = m.net === 0 ? 0 : Math.max(4, Math.abs(m.net) / max * 100);
+        return `
         <div class="trend-column">
             <div class="trend-value">${money(m.net)}</div>
             <div class="trend-track">
-                <div class="trend-bar ${m.net < 0 ? "negative" : "positive"}" style="height:${Math.max(4, Math.abs(m.net)/max*100)}%"></div>
+                <div class="trend-bar ${m.net < 0 ? "negative" : "positive"}" style="height:${pct}%"></div>
             </div>
             <span>${m.label}</span>
-        </div>`).join("");
+        </div>`;
+    }).join("");
 }
 
 // ── Theme ────────────────────────────────────────────────────
@@ -723,7 +734,7 @@ function openTransaction(item) {
     $("amountInput").value = item?.amount   || "";
     $("transactionType").value     = item?.type    || "expense";
     $("transactionCategory").value = item?.category || "Food";
-    $("dateInput").value  = item?.date || new Date().toISOString().slice(0, 10);
+    $("dateInput").value  = item?.date || localDateKey();
     $("noteInput").value  = item?.note || "";
     $("recurringInput").checked = !!item?.recurring;
     syncCategoryOptions();
@@ -844,7 +855,7 @@ window.addEventListener("hashchange", detectPageSection);
 
 // Month picker
 $("monthPicker")?.addEventListener("change", e => {
-    selectedMonth = e.target.value || new Date().toISOString().slice(0, 7);
+    selectedMonth = e.target.value || localMonthKey();
     calendarMonth = selectedMonth;
     render();
 });
@@ -925,13 +936,13 @@ $("goalsList")?.addEventListener("click", async e => {
 $("calendarPrev")?.addEventListener("click", () => {
     const d = new Date(calendarMonth + "-01T00:00:00");
     d.setMonth(d.getMonth() - 1);
-    calendarMonth = d.toISOString().slice(0, 7);
+    calendarMonth = localMonthKey(d);
     renderCalendar();
 });
 $("calendarNext")?.addEventListener("click", () => {
     const d = new Date(calendarMonth + "-01T00:00:00");
     d.setMonth(d.getMonth() + 1);
-    calendarMonth = d.toISOString().slice(0, 7);
+    calendarMonth = localMonthKey(d);
     renderCalendar();
 });
 
