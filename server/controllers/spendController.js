@@ -132,7 +132,7 @@ async function processRecurringTransactions(userId) {
         if (recurringTemplates.length === 0) return { created: 0 };
 
         const today = new Date();
-        const currentMonth = today.toISOString().slice(0, 7);
+        const currentMonth = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`;
         const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
 
         let createdCount = 0;
@@ -613,14 +613,15 @@ function validateGoal(data) {
         return "Goal name must contain 2 to 50 characters.";
     }
 
-    if (!validAmount(data.target)) {
-        return "Target amount must be greater than 0 and below 1 billion.";
+    const target = Number(data.target);
+    if (!Number.isFinite(target) || target < 1 || target > 1000000000) {
+        return "Target amount must be at least 1 and below 1 billion.";
     }
 
     if (data.saved !== undefined) {
         const saved = Number(data.saved);
-        if (!Number.isFinite(saved) || saved < 0) {
-            return "Saved amount must be 0 or greater.";
+        if (!Number.isFinite(saved) || saved < 0 || saved > target) {
+            return "Saved amount must be between 0 and the target amount.";
         }
     }
 
@@ -676,10 +677,11 @@ exports.updateGoal = async (req, res, next) => {
         }
 
         if (body.target !== undefined) {
-            if (!validAmount(body.target)) {
-                return badRequest(res, "Target amount must be greater than 0.");
+            const target = Number(body.target);
+            if (!Number.isFinite(target) || target < 1 || target > 1000000000) {
+                return badRequest(res, "Target amount must be at least 1 and below 1 billion.");
             }
-            update.target = Number(body.target);
+            update.target = target;
         }
 
         if (body.saved !== undefined) {
@@ -692,6 +694,21 @@ exports.updateGoal = async (req, res, next) => {
 
         if (Object.keys(update).length === 0) {
             return badRequest(res, "No valid goal fields provided.");
+        }
+
+        const existingGoals = await store.allGoals(req.user?.id);
+        const existing = existingGoals.find(g => String(g.id) === String(req.params.id));
+        if (!existing) {
+            return res.status(404).json({
+                success: false,
+                message: "Goal not found."
+            });
+        }
+
+        const mergedTarget = update.target !== undefined ? update.target : Number(existing.target);
+        const mergedSaved  = update.saved !== undefined ? update.saved : Number(existing.saved);
+        if (mergedSaved > mergedTarget) {
+            return badRequest(res, "Saved amount cannot exceed target amount.");
         }
 
         const item = await store.updateGoal(req.params.id, update, req.user?.id);

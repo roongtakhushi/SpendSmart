@@ -159,6 +159,7 @@ function showAuthenticatedUI() {
 function logout() {
     authToken = ""; currentUser = null;
     localStorage.removeItem("spendsmart-token");
+    localStorage.removeItem("spendsmart-goals");
     transactions = []; goals = []; budgets = {};
     render();
     const lb = $("logoutBtn"); if (lb) lb.style.display = "none";
@@ -185,8 +186,9 @@ async function init() {
         transactions = tx || [];
         budgets      = bg || {};
         settings     = st || settings;
-        if (currentUser?.name) settings.name = currentUser.name;
-        if (gl && Array.isArray(gl) && gl.length) { goals = gl; saveGoalsLocal(); }
+        if (!settings.name && currentUser?.name) settings.name = currentUser.name;
+        if ($("topbarUserName") && settings.name) $("topbarUserName").textContent = settings.name;
+        if (Array.isArray(gl)) { goals = gl; saveGoalsLocal(); }
 
         // Header date
         $("todayLabel").textContent = new Date().toLocaleDateString("en-IN", {
@@ -203,11 +205,13 @@ async function init() {
         if ($("displayName")) $("displayName").value = settings.name || "";
         if ($("currency"))    $("currency").value    = settings.currency || "INR";
 
-        // Load saved goals
-        try {
-            const sg = JSON.parse(localStorage.getItem("spendsmart-goals") || "[]");
-            if (!goals.length && Array.isArray(sg)) goals = sg;
-        } catch {}
+        // Load saved goals only if the /goals API request failed
+        if (gl === null) {
+            try {
+                const sg = JSON.parse(localStorage.getItem("spendsmart-goals") || "[]");
+                if (Array.isArray(sg)) goals = sg;
+            } catch {}
+        }
 
         populateCategories();
         render();
@@ -615,16 +619,16 @@ async function addGoal() {
     const name   = $("goalName").value.trim();
     const target = Number($("goalTarget").value);
     const saved  = Number($("goalSaved").value || 0);
-    if (!name || !Number.isFinite(target) || target <= 0 || saved < 0 || saved > target)
+    if (!name || !Number.isFinite(target) || target < 1 || saved < 0 || saved > target)
         return notify("Enter a goal name and valid amounts.");
     try {
         const res = await api("/goals", { method: "POST", body: JSON.stringify({ name, target, saved }) });
         goals.push(res);
-    } catch { goals.push({ id: "local_" + Date.now(), name, target, saved }); }
-    saveGoalsLocal();
-    $("goalName").value = ""; $("goalTarget").value = ""; $("goalSaved").value = "0";
-    renderGoals();
-    notify("Savings goal created");
+        saveGoalsLocal();
+        $("goalName").value = ""; $("goalTarget").value = ""; $("goalSaved").value = "0";
+        renderGoals();
+        notify("Savings goal created");
+    } catch (e) { notify(e.message || "Failed to create savings goal"); }
 }
 
 // ── Calendar ─────────────────────────────────────────────────
@@ -733,11 +737,11 @@ function openTransaction(item) {
     $("titleInput").value  = item?.title    || "";
     $("amountInput").value = item?.amount   || "";
     $("transactionType").value     = item?.type    || "expense";
-    $("transactionCategory").value = item?.category || "Food";
+    syncCategoryOptions();
+    $("transactionCategory").value = item?.category || categories[$("transactionType").value][0];
     $("dateInput").value  = item?.date || localDateKey();
     $("noteInput").value  = item?.note || "";
     $("recurringInput").checked = !!item?.recurring;
-    syncCategoryOptions();
     $("transactionDialog").showModal();
 }
 
@@ -788,7 +792,7 @@ async function deleteTransaction(id) {
 
 // ── Budget editor ────────────────────────────────────────────
 function openBudgetEditor() {
-    const keys = [...new Set([...Object.keys(budgets), ...categories.expense])];
+    const keys = categories.expense;
     $("budgetInputs").innerHTML = keys.map(k => `
         <label class="field-label">${esc(k)}
             <input type="number" min="0" step="1" data-budget="${esc(k)}" value="${Number(budgets[k] || 0)}" class="form-control">
@@ -816,6 +820,10 @@ async function saveSettings(e) {
             method: "PUT",
             body: JSON.stringify({ name: $("displayName").value, currency: $("currency").value })
         });
+        const hour = new Date().getHours();
+        const tod  = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
+        if ($("greetingLine"))   $("greetingLine").textContent   = `${tod}, ${settings.name || "there"} 👋`;
+        if ($("topbarUserName")) $("topbarUserName").textContent = settings.name || currentUser?.name || "Student";
         render();
         notify("Preferences saved");
     } catch (e) { notify(e.message); }
@@ -914,20 +922,25 @@ $("goalsList")?.addEventListener("click", async e => {
     const add = e.target.closest("[data-goal-add]");
     if (del) {
         const i = Number(del.dataset.goalDelete); const item = goals[i];
-        if (item?.id && !String(item.id).startsWith("local_")) {
-            try { await api(`/goals/${item.id}`, { method: "DELETE" }); } catch {}
-        }
-        goals.splice(i, 1); saveGoalsLocal(); renderGoals(); notify("Goal deleted");
+        try {
+            if (item?.id && !String(item.id).startsWith("local_")) {
+                await api(`/goals/${encodeURIComponent(item.id)}`, { method: "DELETE" });
+            }
+            goals.splice(i, 1); saveGoalsLocal(); renderGoals(); notify("Goal deleted");
+        } catch (err) { notify(err.message || "Failed to delete goal"); }
     }
     if (add) {
         const i = Number(add.dataset.goalAdd);
         const amount = Number(prompt("How much did you save?"));
         if (Number.isFinite(amount) && amount > 0) {
-            goals[i].saved = Math.min(Number(goals[i].target), Number(goals[i].saved) + amount);
-            if (goals[i].id && !String(goals[i].id).startsWith("local_")) {
-                try { await api(`/goals/${goals[i].id}`, { method: "PUT", body: JSON.stringify({ saved: goals[i].saved }) }); } catch {}
-            }
-            saveGoalsLocal(); renderGoals(); notify("Savings progress updated");
+            const nextSaved = Math.min(Number(goals[i].target), Number(goals[i].saved) + amount);
+            try {
+                if (goals[i].id && !String(goals[i].id).startsWith("local_")) {
+                    await api(`/goals/${encodeURIComponent(goals[i].id)}`, { method: "PUT", body: JSON.stringify({ saved: nextSaved }) });
+                }
+                goals[i].saved = nextSaved;
+                saveGoalsLocal(); renderGoals(); notify("Savings progress updated");
+            } catch (err) { notify(err.message || "Failed to update goal"); }
         }
     }
 });
